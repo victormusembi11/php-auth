@@ -1,0 +1,10 @@
+CREATE DATABASE IF NOT EXISTS login_db;
+
+USE login_db;
+
+CREATE TABLE IF NOT EXISTS user (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(120),
+    email VARCHAR(255) UNIQUE,
+    password_hash VARCHAR(255)
+);
