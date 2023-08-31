@@ -15,5 +15,30 @@ validate_password_confirmation($password, $password_confirmation);
 
 $password_hash = password_hash($_POST["password"], PASSWORD_DEFAULT);
 
+function create_account($mysqli, $name, $email, $password_hash)
+{
+    $sql = "INSERT INTO user (name, email, password_hash) VALUES (?, ?, ?)";
+
+    $stmt = $mysqli->stmt_init();
+
+    if (!$stmt->prepare($sql)) {
+        die("SQL error: " . $mysqli->error);
+    }
+
+    $stmt->bind_param("sss", $name, $email, $password_hash);
+
+    if ($stmt->execute()) {
+        echo "Signup successful";
+    } else {
+        if ($mysqli->errno === 1062) {
+            die("Email already taken");
+        } else {
+            die($mysqli->error . " " . $mysqli->errno);
+        }
+    }
+}
+
+create_account($mysqli, $name, $email, $password_hash);
+
 print_r($_POST);
 var_dump($password_hash);
