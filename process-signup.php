@@ -28,7 +28,8 @@ function create_account($mysqli, $name, $email, $password_hash)
     $stmt->bind_param("sss", $name, $email, $password_hash);
 
     if ($stmt->execute()) {
-        echo "Signup successful";
+        header("Location: signup-success.html");
+        exit;
     } else {
         if ($mysqli->errno === 1062) {
             die("Email already taken");
